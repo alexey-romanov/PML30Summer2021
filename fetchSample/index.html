@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="index.css">
+    <title>Fetch sample</title>
+
+    <script type="text/javascript">
+
+        function startFetch() {
+            let fetchURLElement = document.getElementById("fetchURL");
+
+            let fetchURL = fetchURLElement.value;
+
+            let fetchContent = document.getElementById("fetchContent");
+
+            fetchContent.classList.remove("newData");
+
+            if (fetchURL === "") {
+                fetchContent.innerText = "Empty URL";
+            }
+
+            fetchContent.innerText = "In progress...";
+
+            window.fetch(fetchURL,
+                { mode: 'cors' }
+            )
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Response status is: ${response.status}`);
+                    }
+
+                    return response.text();
+                })
+                .then(text => {
+                    fetchContent.innerText = text;
+                    fetchContent.classList.add("newData");
+                })
+                .catch(err => {
+                    fetchContent.innerText = err.message; fetchContent.classList.add("newData");
+                });
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <div>
+        <label for="fetchURL">URL</label>
+        <input type="input" id="fetchURL">
+        <button type="button" class="button button4" onclick="startFetch();">Fetch!</button>
+    </div>
+    <div id="fetchContent">
+    </div>
+
+</body>
+
+</html>
