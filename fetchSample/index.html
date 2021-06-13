@@ -41,6 +41,33 @@
                 });
         }
 
+        async function startFetchAsync() {
+            let fetchURLElement = document.getElementById("fetchURL");
+            let fetchURL = fetchURLElement.value;
+            let fetchContent = document.getElementById("fetchContent");
+            fetchContent.classList.remove("newData");
+
+            if (fetchURL === "") {
+                fetchContent.innerText = "Empty URL";
+            }
+
+            fetchContent.innerText = "In progress...";
+
+            try {
+                const response = await window.fetch(fetchURL);
+                if (!response.ok) {
+                    throw new Error(`Response status is: ${response.status}`);
+                }
+                const text = await response.text();
+                fetchContent.innerText = text;
+                fetchContent.classList.add("newData");
+
+            } catch (err) {
+                fetchContent.innerText = err.message;
+                fetchContent.classList.add("newData");
+            }
+        }
+
     </script>
 </head>
 
@@ -49,7 +76,7 @@
     <div>
         <label for="fetchURL">URL</label>
         <input type="input" id="fetchURL">
-        <button type="button" class="button button4" onclick="startFetch();">Fetch!</button>
+        <button type="button" class="button button4" onclick="startFetchAsync();">Fetch!</button>
     </div>
     <div id="fetchContent">
     </div>
