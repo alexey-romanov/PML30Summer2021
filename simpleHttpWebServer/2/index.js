@@ -4,6 +4,17 @@ const fs = require('fs').promises;
 const host = 'localhost';
 const port = 8000;
 
+// let messages = [];
+
+// fuinction addNewMessage(user, msg) {
+//     messages.push({ userName: user, message: msg });
+// // }
+
+// const requestListener = function (req, res) {
+//     if (req.url === "/getMessages")
+
+// }
+
 const requestListener = function (req, res) {
     console.log(
         `Request: ${req.method}, ${req.url}`
@@ -37,12 +48,10 @@ const requestListener = function (req, res) {
         })
         .catch(err => {
             res.writeHead(500);
-            res.end(err);
+            res.end(err.message);
             return;
         });
 };
 
 const server = http.createServer(requestListener);
-server.listen(port, host, () => {
-    console.log(`Server is running on http://${host}:${port}`);
-});
+server.listen(port);
